@@ -1,3 +1,4 @@
+import math
 from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF, Py_XDECREF
 
 
@@ -21,6 +22,13 @@ cdef void _call_bb_query_func(cpShape *shape, void *data):
     py_shape = shapes[shape.hashid_private]
     space._add_query_hits(py_shape)
 
+cdef void _call_nearest_point_query_func(cpShape *shape, cpFloat distance, cpVect point, void *data):
+    cdef Space space
+    space = <Space>data
+    cdef dict shapes
+    shapes = space._shapes
+    py_shape = shapes[shape.hashid_private]
+    space._add_query_hits(py_shape)
 
 cdef void _call_space_segment_query_func(cpShape *shape, cpFloat t, cpVect n, void *data):
     global handlers
@@ -529,11 +537,22 @@ cdef class Space:
     def space_bb_query(self, bb, layers=1, group=0):
         cpSpaceBBQuery(self._space, bb._bb, layers, group, 
             _call_space_bb_query_func, <void *>self)
-    
+
     def bb_query(self, bb, layers=1, group=0):
         self._query_hits = []
         cpSpaceBBQuery(self._space, bb._bb, layers, group, 
             _call_bb_query_func, <void *>self)
+        return self._query_hits
+
+    def nearest_point_query(self, point, max_dist, layers=1, group=0):
+        self._query_hits = []
+        if math.isinf(max_dist):
+            cpSpaceNearestPointQuery(self._space, point.v, INFINITY, layers, group, 
+                _call_nearest_point_query_func, <void *>self)
+        else:
+            cpSpaceNearestPointQuery(self._space, point.v, max_dist, layers, group, 
+                _call_nearest_point_query_func, <void *>self)
+
         return self._query_hits
     
     def shape_query(self, Shape shape):

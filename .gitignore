@@ -4,3 +4,6 @@ cymunk/python/cymunk.c
 *.so
 build
 docs/_build
+
+*.egg-info/
+.venv

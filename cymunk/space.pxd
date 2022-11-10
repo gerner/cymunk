@@ -90,6 +90,11 @@ cdef extern from "chipmunk/chipmunk.h":
     ctypedef void(* cpSpaceBBQueryFunc)(cpShape *shape, void *data)
     void cpSpaceBBQuery(cpSpace *space, cpBB bb, cpLayers layers, 
         cpGroup group, cpSpaceBBQueryFunc func, void *data)
+
+    ctypedef void(* cpSpaceNearestPointQueryFunc)(cpShape *shape, cpFloat distance,
+        cpVect point, void *data)
+    void cpSpaceNearestPointQuery(cpSpace *space, cpVect point, cpFloat maxDistance,
+        cpLayers layers, cpGroup group, cpSpaceNearestPointQueryFunc func, void *data)
     
     ctypedef void(* cpSpaceSegmentQueryFunc)(cpShape *shape, 
         cpFloat t, cpVect n, void *data)

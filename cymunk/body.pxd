@@ -32,6 +32,8 @@ cdef extern from "chipmunk/chipmunk.h":
     cpVect cpBodyLocal2World(cpBody *body, cpVect v)
     cpVect cpBodyWorld2Local(cpBody *body, cpVect v)
 
+    ctypedef void (*cpBodyShapeIteratorFunc)(cpBody *body, cpShape *shape, void *data);
+    void cpBodyEachShape(cpBody *body, cpBodyShapeIteratorFunc func, void *data);
 
 cdef class Body:
     cdef cpBody* _body

@@ -2,18 +2,23 @@ import sys
 from os import environ
 from os.path import dirname, join
 
-if environ.get('CYMUNK_USE_SETUPTOOLS'):
-    from setuptools import setup, Extension
-    print('Using setuptools')
-else:
-    from distutils.core import setup
-    from distutils.extension import Extension
-    print('Using distutils')
+#if environ.get('CYMUNK_USE_SETUPTOOLS'):
+#    from setuptools import setup, Extension
+#    print('Using setuptools')
+#else:
+#    from distutils.core import setup
+#    from distutils.extension import Extension
+#    print('Using distutils')
+
+from setuptools import setup, Extension
+print('Using setuptools')
 
 try:
     from Cython.Distutils import build_ext
+    from Cython.Build import cythonize
     have_cython = True
 except ImportError:
+    raise
     have_cython = False
 
 
@@ -48,15 +53,25 @@ if have_cython:
         'cymunk/cymunk.pyx'
         ]
     cmdclass = {'build_ext': build_ext}
+    extensions = cythonize(
+        [Extension('cymunk.cymunk',
+            cymunk_files + c_chipmunk_files,
+            include_dirs=c_chipmunk_incs,
+            extra_compile_args=[cstdarg, '-ffast-math', '-fPIC', '-DCHIPMUNK_FFI'],
+        )],
+        build_dir="build",
+        annotate=True,
+    )
 else:
+    raise Exception()
     cymunk_files = ['cymunk/cymunk.c']
     cmdclass = {}
 
-ext = Extension('cymunk.cymunk',
-    cymunk_files + c_chipmunk_files,
-    include_dirs=c_chipmunk_incs,
-    extra_compile_args=[cstdarg, '-ffast-math', '-fPIC', '-DCHIPMUNK_FFI'])
- 
+    extensions = [Extension('cymunk.cymunk',
+        cymunk_files + c_chipmunk_files,
+        include_dirs=c_chipmunk_incs,
+        extra_compile_args=[cstdarg, '-ffast-math', '-fPIC', '-DCHIPMUNK_FFI'],
+    )]
 
 setup(
     name='cymunk',
@@ -68,6 +83,8 @@ setup(
     package_data={'cymunk': ['*.pxd', '*.pxi', 'chipmunk/*.h',
         'chipmunk/constraints/*.h']},
     package_dir={'cymunk': 'cymunk'},
-    ext_modules=[ext],
-    version='0.0.0.dev0'
+    include_package_data=True,
+    ext_modules=extensions,
+    version='0.0.0.dev0',
+    zip_safe=False,
 )

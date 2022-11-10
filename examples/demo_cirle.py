@@ -1,12 +1,12 @@
 from cymunk import *
 
 def mycollide(arbiter):
-    print "MY COLLIDE CALLED", arbiter
+    print("MY COLLIDE CALLED", arbiter)
     try:
-        print arbiter.contacts
-        print arbiter.shapes
-    except Exception, e:
-        print e
+        print(arbiter.contacts)
+        print(arbiter.shapes)
+    except Exception as e:
+        print(e)
         raise
     return True
 
@@ -46,5 +46,5 @@ from time import time
 start = time()
 while time() - start < 1.:
     space.step(1 / 30.)
-    print circle.body.position
+    print(circle.body.position)
 
