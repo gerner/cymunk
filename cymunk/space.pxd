@@ -20,7 +20,7 @@ cdef struct cpArray:
     void **arr
 
 cdef extern from "chipmunk/chipmunk.h":
-    ctypedef unsigned int cpTimestamp
+    #ctypedef unsigned int cpTimestamp
 
     ctypedef struct cpSpace:
         # Number of iterations to use in the impulse solver to solve contacts
@@ -56,8 +56,8 @@ cdef extern from "chipmunk/chipmunk.h":
     cdef void cpSpaceDestroy(cpSpace *space)
     cdef void cpSpaceFree(cpSpace *space)
 
-    ctypedef void(* cpConstraintPreSolveFunc)(cpConstraint *constraint, cpSpace *space)
-    ctypedef void(* cpConstraintPostSolveFunc)(cpConstraint *constraint, cpSpace *space)
+    #ctypedef void(* cpConstraintPreSolveFunc)(cpConstraint *constraint, cpSpace *space)
+    #ctypedef void(* cpConstraintPostSolveFunc)(cpConstraint *constraint, cpSpace *space)
 
     ctypedef struct cpConstraint:
         # The first body connected to this constraint

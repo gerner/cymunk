@@ -3,7 +3,7 @@ cdef extern from "chipmunk/chipmunk.h":
     void     cpConstraintDestroy (cpConstraint *constraint)
     void     cpConstraintFree (cpConstraint *constraint)
     
-    inline cpFloat cpConstraintGetImpulse(cpConstraint *constraint)
+    cpFloat cpConstraintGetImpulse(cpConstraint *constraint)
     
     # Callback function type that gets called before solving a joint.
     ctypedef void(* cpConstraintPreSolveFunc )(cpConstraint *constraint, cpSpace *space)
