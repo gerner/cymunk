@@ -20,7 +20,7 @@ def test_space_attributes():
     assert(space.sleep_time_threshold == float('inf'))
     assert(space.collision_slop < 0.2)
     assert(space.collision_bias < 0.01)
-    assert(space.collision_persistence == 3L)
+    assert(space.collision_persistence == 3)
     assert(space.enable_contact_graph == 0)
 
     # tests readonly attributes

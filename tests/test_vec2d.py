@@ -43,7 +43,7 @@ def test_vec2d_magic_math():
         )
     ops = (
         operator.add, operator.sub, operator.mul,
-        operator.div, operator.floordiv, operator.truediv,
+        operator.floordiv, operator.truediv,
         operator.mod,
         )
     for left, right in params:
@@ -70,7 +70,7 @@ def test_vec2d_magic_math_inplace():
         )
     ops = (
         operator.iadd, operator.isub, operator.imul,
-        operator.idiv, operator.ifloordiv, operator.itruediv,
+        operator.ifloordiv, operator.itruediv,
         operator.imod
         )
     for left, right in params:
