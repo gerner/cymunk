@@ -103,7 +103,8 @@ cdef class Body:
 
     property force:
         def __get__(self):
-            return self._body.f
+            v = self._body.v
+            return Vec2d(v.x, v.y)
         def __set__(self, f):
             self._body.f = cpv(f.x, f.y)
 
