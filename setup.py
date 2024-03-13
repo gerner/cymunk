@@ -27,7 +27,7 @@ if platform == 'win32':
 	cstdarg = '-std=gnu99'
 else:
 	cstdarg = '-std=c99'
-c_chipmunk_root = join(dirname(__file__), 'cymunk', 'Chipmunk-Physics')
+c_chipmunk_root = join('cymunk', 'Chipmunk-Physics')
 c_chipmunk_src = join(c_chipmunk_root, 'src')
 c_chipmunk_incs = [join(c_chipmunk_root, 'include'),
         join(c_chipmunk_root, 'include', 'chipmunk')]
