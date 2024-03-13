@@ -4,7 +4,7 @@ from cpython.ref cimport PyObject, Py_INCREF, Py_DECREF, Py_XDECREF
 
 handlers = {}
     
-cdef void _call_space_bb_query_func(cpShape *shape, void *data):
+cdef void _call_space_bb_query_func(cpShape *shape, void *data) noexcept:
     global handlers
     cdef dict shapes
     cdef Space space
@@ -14,7 +14,7 @@ cdef void _call_space_bb_query_func(cpShape *shape, void *data):
     handlers['bb_query_func'](py_shape)
 
 
-cdef void _call_bb_query_func(cpShape *shape, void *data):
+cdef void _call_bb_query_func(cpShape *shape, void *data) noexcept:
     cdef Space space
     space = <Space>data
     cdef dict shapes
@@ -22,7 +22,7 @@ cdef void _call_bb_query_func(cpShape *shape, void *data):
     py_shape = shapes[shape.hashid_private]
     space._add_query_hits(py_shape)
 
-cdef void _call_nearest_point_query_func(cpShape *shape, cpFloat distance, cpVect point, void *data):
+cdef void _call_nearest_point_query_func(cpShape *shape, cpFloat distance, cpVect point, void *data) noexcept:
     cdef Space space
     space = <Space>data
     cdef dict shapes
@@ -30,7 +30,7 @@ cdef void _call_nearest_point_query_func(cpShape *shape, cpFloat distance, cpVec
     py_shape = shapes[shape.hashid_private]
     space._add_query_hits(py_shape)
 
-cdef void _call_space_segment_query_func(cpShape *shape, cpFloat t, cpVect n, void *data):
+cdef void _call_space_segment_query_func(cpShape *shape, cpFloat t, cpVect n, void *data) noexcept:
     global handlers
     cdef Space space
     space = <Space>data
@@ -40,7 +40,7 @@ cdef void _call_space_segment_query_func(cpShape *shape, cpFloat t, cpVect n, vo
     handlers['segment_query_func'](py_shape, t, n)
 
 
-cdef void _call_shape_query_func(cpShape *shape, cpContactPointSet *points, void *data):
+cdef void _call_shape_query_func(cpShape *shape, cpContactPointSet *points, void *data) noexcept:
     cdef Space space
     space = <Space>data
     cdef dict shapes
@@ -49,7 +49,7 @@ cdef void _call_shape_query_func(cpShape *shape, cpContactPointSet *points, void
     space._add_query_hits(py_shape)
 
 
-cdef bool _call_collision_begin_func(cpArbiter *_arb, cpSpace *_space, void *data):
+cdef bool _call_collision_begin_func(cpArbiter *_arb, cpSpace *_space, void *data) noexcept:
     global handlers
     cdef Space space
     space = <Space>data
@@ -69,7 +69,7 @@ cdef bool _call_collision_begin_func(cpArbiter *_arb, cpSpace *_space, void *dat
     return True
 
 
-cdef bool _call_collision_pre_solve_func(cpArbiter *_arb, cpSpace *_space, void *data):
+cdef bool _call_collision_pre_solve_func(cpArbiter *_arb, cpSpace *_space, void *data) noexcept:
     global handlers
     cdef Space space
     space = <Space>data
@@ -88,7 +88,7 @@ cdef bool _call_collision_pre_solve_func(cpArbiter *_arb, cpSpace *_space, void 
                 return False
     return True
 
-cdef bool _call_collision_post_solve_func(cpArbiter *_arb, cpSpace *_space, void *data):
+cdef bool _call_collision_post_solve_func(cpArbiter *_arb, cpSpace *_space, void *data) noexcept:
     global handlers
     cdef Space space
     space = <Space>data
@@ -107,7 +107,7 @@ cdef bool _call_collision_post_solve_func(cpArbiter *_arb, cpSpace *_space, void
                 return False
     return False
 
-cdef bool _call_collision_separate_func(cpArbiter *_arb, cpSpace *_space, void *data):
+cdef bool _call_collision_separate_func(cpArbiter *_arb, cpSpace *_space, void *data) noexcept:
     global handlers
     cdef Space space
     space = <Space>data
@@ -127,7 +127,7 @@ cdef bool _call_collision_separate_func(cpArbiter *_arb, cpSpace *_space, void *
     return False
 
 
-cdef bool _collision_begin_func(cpArbiter *_arb, cpSpace *_space, void *_data):
+cdef bool _collision_begin_func(cpArbiter *_arb, cpSpace *_space, void *_data) noexcept:
     cdef PyObject *obj = <PyObject *>_data
     cdef Space space = <Space>obj
     cdef object func
@@ -143,7 +143,7 @@ cdef bool _collision_begin_func(cpArbiter *_arb, cpSpace *_space, void *_data):
                 return False
     return True
 
-cdef bool _collision_pre_solve_func(cpArbiter *_arb, cpSpace *_space, void *_data):
+cdef bool _collision_pre_solve_func(cpArbiter *_arb, cpSpace *_space, void *_data) noexcept:
     cdef PyObject *obj = <PyObject *>_data
     cdef Space space = <Space>obj
     cdef object func
@@ -160,7 +160,7 @@ cdef bool _collision_pre_solve_func(cpArbiter *_arb, cpSpace *_space, void *_dat
 
     return True
 
-cdef bool _collision_post_solve_func(cpArbiter *_arb, cpSpace *_space, void *_data):
+cdef bool _collision_post_solve_func(cpArbiter *_arb, cpSpace *_space, void *_data) noexcept:
     cdef PyObject *obj = <PyObject *>_data
     cdef Space space = <Space>obj
     cdef object func
@@ -177,7 +177,7 @@ cdef bool _collision_post_solve_func(cpArbiter *_arb, cpSpace *_space, void *_da
 
     return False
 
-cdef bool _collision_seperate_func(cpArbiter *_arb, cpSpace *_space, void *_data):
+cdef bool _collision_seperate_func(cpArbiter *_arb, cpSpace *_space, void *_data) noexcept:
     cdef PyObject *obj = <PyObject *>_data
     cdef Space space = <Space>obj
     cdef object func

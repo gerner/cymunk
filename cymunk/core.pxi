@@ -169,10 +169,10 @@ cdef class Vec2d:
 
     # Addition
     def __add__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.add)
-        else:
-            return other._r_o2(self, operator.add)
+        return self._o2(other, operator.add)
+
+    def __radd__(self, other):
+        return self._r_o2(other, operator.add)
 
     def __iadd__(self, other):
         if isinstance(other, Vec2d):
@@ -188,10 +188,10 @@ cdef class Vec2d:
 
     # Subtraction
     def __sub__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.sub)
-        else:
-            return other._r_o2(self, operator.sub)
+        return self._o2(other, operator.sub)
+
+    def __rsub__(self, other):
+        return self._r_o2(other, operator.sub)
 
     def __isub__(self, other):
         if isinstance(other, Vec2d):
@@ -207,10 +207,10 @@ cdef class Vec2d:
 
     # Multiplication
     def __mul__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.mul)
-        else:
-            return other._r_o2(self, operator.mul)
+        return self._o2(other, operator.mul)
+
+    def __rmul__(self, other):
+        return self._r_o2(other, operator.mul)
 
     def __imul__(self, other):
         if isinstance(other, Vec2d):
@@ -226,39 +226,39 @@ cdef class Vec2d:
 
     # Division
     def __div__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.div)
-        else:
-            return other._r_o2(self, operator.div)
+        return self._o2(other, operator.div)
+
+    def __rdiv(self, other):
+        return self._r_o2(other, operator.div)
 
     def __idiv__(self, other):
         return self._io(other, operator.div)
 
     def __floordiv__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.floordiv)
-        else:
-            return other._r_o2(self, operator.floordiv)
+        return self._o2(other, operator.floordiv)
+
+    def __rfloordiv__(self, other):
+        return self._r_o2(other, operator.floordiv)
 
     def __ifloordiv__(self, other):
         return self._io(other, operator.floordiv)
 
     def __truediv__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.truediv)
-        else:
-            return other._r_o2(self, operator.truediv)
+        return self._o2(other, operator.truediv)
+
+    def __rtruediv__(self, other):
+        return self._r_o2(other, operator.truediv)
 
     def __itruediv__(self, other):
         return self._io(other, operator.truediv)
 
     # Modulo
     def __mod__(self, other):
-        if isinstance(self, Vec2d):
-            return self._o2(other, operator.mod)
-        else:
-            return other._r_o2(self, operator.mod)
-        
+        return self._o2(other, operator.mod)
+
+    def __rmod__(self, other):
+        return self._r_o2(other, operator.mod)
+
     def __imod__(self, other):
         return self._io(other, operator.mod)
 
