@@ -24,7 +24,7 @@ cdef void _call_constraint_presolve_func(cpConstraint *constraint,
     global constraint_handlers
     py_space = <object><void *>space.data
     py_constraint = <object><void *>constraint.data
-    constraint_dict = constraint_handlers[py_constraint]
+    constraint_dict = constraint_handlers[id(py_constraint)]
     constraint_dict['pre_solve'](py_constraint, py_space)
 
 cdef void _call_constraint_postsolve_func(cpConstraint *constraint, 
@@ -32,7 +32,7 @@ cdef void _call_constraint_postsolve_func(cpConstraint *constraint,
     global constraint_handlers
     py_space = <object><void *>space.data
     py_constraint = <object><void *>constraint.data
-    constraint_dict = constraint_handlers[py_constraint]
+    constraint_dict = constraint_handlers[id(py_constraint)]
     constraint_dict['post_solve'](py_constraint, py_space)
 
 
@@ -49,7 +49,7 @@ cdef class Constraint:
 
     def __dealloc__(self):
         global constraint_handlers
-        del constraint_handlers[self]
+        del constraint_handlers[id(self)]
         if self.automanaged:
             cpConstraintFree(self._constraint)
 
@@ -122,11 +122,11 @@ cdef class Constraint:
 
     def _set_py_presolve_handler(self, presolve_func):
         global constraint_handlers
-        constraint_handlers[self]['pre_solve'] = presolve_func
+        constraint_handlers[id(self)]['pre_solve'] = presolve_func
 
     def _set_py_postsolve_handler(self, postsolve_func):
         global constraint_handlers
-        constraint_handlers[self]['post_solve'] = postsolve_func
+        constraint_handlers[id(self)]['post_solve'] = postsolve_func
 
 
 cdef class GrooveJoint(Constraint):
@@ -137,7 +137,7 @@ cdef class GrooveJoint(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._groovejoint = <cpGrooveJoint *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property groove_a:
         def __get__(self):
@@ -167,7 +167,7 @@ cdef class PinJoint(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._pinjoint = <cpPinJoint *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property anchor1:
         def __get__(self):
@@ -193,7 +193,7 @@ cdef class DampedSpring(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._dampedspring = <cpDampedSpring *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property anchor1:
         def __get__(self):
@@ -236,7 +236,7 @@ cdef class DampedRotarySpring(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._dampedspring = <cpDampedRotarySpring *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property rest_angle:
         def __get__(self):
@@ -265,7 +265,7 @@ cdef class RotaryLimitJoint(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._rotaryLimitJoint = <cpRotaryLimitJoint *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property min:
         def __get__(self):
@@ -290,7 +290,7 @@ cdef class SlideJoint(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._slidejoint = <cpSlideJoint *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property anchor1:
         def __get__(self):
@@ -371,7 +371,7 @@ cdef class PivotJoint(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._pivotjoint = <cpPivotJoint *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
     
     property anchor1:
         def __get__(self):
@@ -394,7 +394,7 @@ cdef class GearJoint(Constraint):
         self._constraint.data = <cpDataPointer><void *>self
         self._gearjoint = <cpGearJoint *>self._constraint
         global constraint_handlers
-        constraint_handlers[self] = {}
+        constraint_handlers[id(self)] = {}
 
     property phase:
         def __get__(self):
